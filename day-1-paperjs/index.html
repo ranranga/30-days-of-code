@@ -1,0 +1,102 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.12.0/paper-full.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.1.1/howler.js"
+    ></script>
+    <link rel="stylesheet" href="circles.css" />
+    <title>Circle</title>
+    <!-- Define inlined PaperScript associate it with myCanvas -->
+    <script type="text/paperscript" canvas="myCanvas">
+
+        alert('Use key Q, W, E, A, S, D and Z to play different sounds.');
+       
+        var keyData = {
+            a: {
+                color: "blue",
+                sound: new Howl({
+                    src: ['sounds/bass4.wav']
+                })
+            },
+            s: {
+                color: "green",
+                sound: new Howl({
+                    src: ['sounds/bass-drum.mp3']
+                })
+            },
+            d: {
+                color: "orange",
+                sound: new Howl({
+                    src: ['sounds/closed.wav']
+                })
+            },
+            q: {
+                color: "red",
+                sound: new Howl({
+                    src: ['sounds/ShotgunReload.wav']
+                })
+            },
+            w: {
+                color: "purple",
+                sound: new Howl({
+                    src: ['sounds/Percussion(4e)2.wav']
+                })
+            },
+            e: {
+                color: "magenta",
+                sound: new Howl({
+                    src: ['sounds/loelectm.wav']
+                })
+            },
+            z: {
+                color: "pink",
+                sound: new Howl({
+                    src: ['sounds/Umgah-Backzip.wav']
+                })
+            },
+            z: {
+                color: "white",
+                sound: new Howl({
+                    src: ['sounds/snare.mp3']
+                })
+            },
+        }
+
+        var circles = [];
+
+      function onKeyDown(event) {
+          if (keyData[event.key]) {
+            var maxPoint = new Point(view.size.width, view.size.height);
+            var randomPoint = Point.random();
+            var point = maxPoint * randomPoint;
+            var newCircle = new Path.Circle({
+                center: point,
+                radius: 300,
+                fillColor: keyData[event.key].color
+            });
+            keyData[event.key].sound.play();
+            circles.push(newCircle);
+          }
+      }
+
+      function onFrame() {
+          for (var i = 0; i < circles.length; i++) {
+              circles[i].fillColor.hue += 1;
+              circles[i].scale(.9);
+          }
+      }
+    </script>
+  </head>
+
+  <body>
+    <canvas id="myCanvas" resize></canvas>
+    
+  </body>
+</html>
